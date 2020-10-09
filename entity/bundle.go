@@ -11,4 +11,5 @@ type BundleResponse struct {
 	TotalBoxes int `json:"total_boxes"`
 	Cakes int `json:"cakes"`
 	Apples int `json:"apples"`
+	ErrorMessage string `json:"error_message"`
 }

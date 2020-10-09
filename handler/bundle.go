@@ -18,6 +18,20 @@ func Bundle(w http.ResponseWriter, r *http.Request) {
 			TotalBoxes: 0,
 			Cakes: 0,
 			Apples: 0,
+			ErrorMessage: string(err.Error()),
+		}
+
+		renderResponse(w, r, http.StatusBadRequest, respBody)
+		return
+	}
+
+	// Zero validation
+	if bundleRequest.Apples <= 0 || bundleRequest.Cakes <= 0 {
+		respBody := &entity.BundleResponse{
+			TotalBoxes: 0,
+			Cakes: 0,
+			Apples: 0,
+			ErrorMessage: "Zero quantity",
 		}
 
 		renderResponse(w, r, http.StatusBadRequest, respBody)
