@@ -9,6 +9,7 @@ type Configuration struct {
 // DatabaseConfiguration for this application
 type DatabaseConfiguration struct {
 	ConnectionURI string
+	Name string
 }
 
 // ServerConfiguration for this application

@@ -1,5 +1,6 @@
 database:
   connectionString: "connection string"
+  name: "kitabisa"
 
 server:
   port: 3000
