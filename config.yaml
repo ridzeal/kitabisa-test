@@ -1,0 +1,5 @@
+database:
+  connectionString: "connection string"
+
+server:
+  port: 3000

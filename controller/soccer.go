@@ -29,6 +29,6 @@ func AddTeam(teamName string) (teamID int, err error) {
 }
 
 // RemoveTeam from database
-func RemoveTeam(teamName string) (err error) {
+func RemoveTeam(teamID int) (err error) {
 	return err
 }
