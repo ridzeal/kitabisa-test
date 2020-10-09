@@ -18,7 +18,7 @@ func Bundle(w http.ResponseWriter, r *http.Request) {
 			TotalBoxes: 0,
 			Cakes: 0,
 			Apples: 0,
-			ErrorMessage: string(err.Error()),
+			ErrorMessage: "Missing parameter",
 		}
 
 		renderResponse(w, r, http.StatusBadRequest, respBody)

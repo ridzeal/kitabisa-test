@@ -42,6 +42,14 @@ func TestBundleNotJson(t *testing.T) {
 		t.Errorf("handler returned wrong status code: got %v want %v",
 			status, http.StatusBadRequest)
 	}
+
+	var response *entity.BundleResponse
+	json.Unmarshal(rr.Body.Bytes(), &response)
+	expectedMessage := "Missing parameter"
+	if response.ErrorMessage != expectedMessage {
+		t.Errorf("handler returned unexpected error message: got %v want %v",
+			response.ErrorMessage, expectedMessage)
+	}
 }
 
 func TestBundleMissingParam(t *testing.T) {

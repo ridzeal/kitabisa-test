@@ -18,17 +18,17 @@ func main() {
 	// Prepare configuration
 	viper.SetConfigName("config")
 	viper.AddConfigPath(".")
-	var configuration config.Configuration
+	var conf config.Configuration
 
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatalf("Error reading config file, %s", err)
 	}
-	err := viper.Unmarshal(&configuration)
+	err := viper.Unmarshal(&conf)
 	if err != nil {
 		log.Fatalf("unable to decode into struct, %v", err)
 	}
 
-	port := strconv.Itoa(3000)
+	port := strconv.Itoa(conf.Server.Port)
 	r := chi.NewRouter()
 
 	// Add useful middleware
