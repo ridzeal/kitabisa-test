@@ -8,6 +8,7 @@ import (
 	"github.com/go-chi/chi/middleware"
 
 	"kitabisa-test/handler"
+	"kitabisa-test/routes"
 )
 
 func main() {
@@ -20,6 +21,7 @@ func main() {
 	// Router
 	r.Get("/", welcome)
 	r.Post("/bundle", handler.Bundle)
+	r.Route("/soccer", routes.SoccerRouter)
 
 	// Start server
 	fmt.Println("Server starting on port " + port)

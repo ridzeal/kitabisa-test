@@ -1,5 +1,18 @@
 package entity
 
+// Team is an object that represents a team
+type Team struct {
+	TeamID int `json:"team_id"`
+	TeamName string `json:"team_name"`
+	Players []Player `json:"players"`
+}
+
+// Player is an object that represents a player
+type Player struct {
+	PlayerID int `json:"player_id"`
+	PlayerName string `json:"player_name"`
+}
+
 // GetTeamResponse is response object when get team API called
 type GetTeamResponse struct {
 	Teams []string `json:"teams"`
@@ -12,7 +25,7 @@ type GetTeamDetailResponse struct {
 
 // AddTeamResponse is response object after adding a team
 type AddTeamResponse struct {
-	TeamID string `json:"teamId"`
+	TeamID string `json:"team_id"`
 	Status string `json:"status"`
 	Error string `json:"error"`
 }
@@ -25,7 +38,7 @@ type RemoveTeamResponse struct {
 
 // AddPlayerResponse is response object after adding a player into the team
 type AddPlayerResponse struct {
-	PlayerID string `json:"playerId"`
+	PlayerID string `json:"player_id"`
 	Status string `json:"status"`
 	Error string `json:"error"`
 }
