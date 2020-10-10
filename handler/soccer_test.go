@@ -5,8 +5,6 @@ import (
 	"testing"
 	"net/http"
 	"net/http/httptest"
-
-	// "kitabisa-test/entity"
 )
 
 func TestSoccerGetAllTeamPositive(t *testing.T) {

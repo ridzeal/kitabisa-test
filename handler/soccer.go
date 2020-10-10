@@ -2,19 +2,30 @@ package handler
 
 import (
 	"net/http"
-	"fmt"
-
+	
 	"kitabisa-test/entity"
+	"kitabisa-test/controller"
 )
 
 // GetTeams returns list of soccer team
 func GetTeams(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	app := ctx.Value(entity.AppCtx)
-	fmt.Printf("%v", app)
+	
+	app, ok := ctx.Value(entity.AppCtx).(*entity.Application)
+	if !ok {
+		status := http.StatusUnprocessableEntity
+    http.Error(w, http.StatusText(status), status)
+    return
+  }
+	
+	teams, err := controller.GetTeams(app.DB)
+	if err != nil {
+		status := http.StatusInternalServerError
+		http.Error(w, http.StatusText(status), status)
+	}
 
 	response := &entity.GetTeamResponse{
-		Teams: []string{"test","test2"},
+		Teams: teams,
 	}
 	renderResponse(w, r, http.StatusOK, response)
 }

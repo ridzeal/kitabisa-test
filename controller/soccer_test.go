@@ -1,12 +1,14 @@
 package controller
 
 import (
+	"gorm.io/gorm"
 	"testing"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestSoccerGetTeamPositive(t *testing.T) {
-	teams, err := GetTeams()
+	db := gorm.DB{}
+	teams, err := GetTeams(&db)
 	assert.NotEqual(t, 0, len(teams), "Team list shouldn't empty")
 	assert.Equal(t, nil, err, "There should be no error")
 }

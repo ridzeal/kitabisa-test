@@ -4,7 +4,6 @@ package entity
 type Team struct {
 	TeamID int `json:"team_id"`
 	TeamName string `json:"team_name"`
-	Players []Player `json:"players"`
 }
 
 // Player is an object that represents a player
@@ -15,7 +14,7 @@ type Player struct {
 
 // GetTeamResponse is response object when get team API called
 type GetTeamResponse struct {
-	Teams []string `json:"teams"`
+	Teams []Team `json:"teams"`
 }
 
 // GetTeamDetailResponse is response object when get player API called

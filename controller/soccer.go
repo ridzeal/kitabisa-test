@@ -1,13 +1,20 @@
 package controller
 
 import (
+	"fmt"
+	"gorm.io/gorm"
 	"kitabisa-test/entity"
+	"kitabisa-test/models"
 )
 
 // GetTeams fetching all teams in databases
-func GetTeams() (teams []entity.Team, err error) {
-	teams = []entity.Team{
-		{TeamID: 1, TeamName: "Test"},
+func GetTeams(db *gorm.DB) (teams []entity.Team, err error) {
+	var teamResult []models.Team
+	db.Find(&teamResult)
+	fmt.Printf("Result %v", teamResult)
+
+	for _, val := range(teamResult) {
+		teams = append(teams, entity.Team{TeamID: val.ID, TeamName: val.Name})
 	}
 
 	return teams, err
