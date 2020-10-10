@@ -6,7 +6,7 @@ import (
 	"gorm.io/driver/sqlite"
 	"github.com/spf13/viper"
 
-	"kitabisa-test/config"
+	"kitabisa-test/entity"
 	"kitabisa-test/models"
 )
 
@@ -14,7 +14,7 @@ func main() {
 	// Prepare configuration
 	viper.SetConfigName("config")
 	viper.AddConfigPath(".")
-	var conf config.Configuration
+	var conf entity.Configuration
 
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatalf("Error reading config file, %s", err)

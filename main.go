@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/http"
 	"log"
-	"context"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/spf13/viper"
@@ -14,7 +13,6 @@ import (
 
 	"kitabisa-test/handler"
 	"kitabisa-test/routes"
-	"kitabisa-test/config"
 	"kitabisa-test/entity"
 )
 
@@ -22,7 +20,7 @@ func main() {
 	// Prepare configuration
 	viper.SetConfigName("config")
 	viper.AddConfigPath(".")
-	var conf config.Configuration
+	var conf entity.Configuration
 
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatalf("Error reading config file, %s", err)
@@ -39,15 +37,15 @@ func main() {
   }
 
 	// Create app context
-	app := &application{Config: conf, DB: db}
+	app := &entity.Application{Config: conf, DB: db}
 
-	// Init Router
+	// Init
 	port := strconv.Itoa(conf.Server.Port)
 	r := chi.NewRouter()
 
 	// Add useful middleware
 	r.Use(middleware.Logger)
-	r.Use(app.appCtx)
+	r.Use(app.AppCtx)
 
 	// Router
 	r.Get("/", welcome)
@@ -61,16 +59,4 @@ func main() {
 
 func welcome(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("welcome"))
-}
-
-type application struct {
-	Config config.Configuration
-	DB *gorm.DB
-}
-
-func (app *application) appCtx(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.WithValue(r.Context(), entity.AppCtx, app)
-		next.ServeHTTP(w, r.WithContext(ctx))
-  })
 }

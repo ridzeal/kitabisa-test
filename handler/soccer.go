@@ -2,12 +2,17 @@ package handler
 
 import (
 	"net/http"
+	"fmt"
 
 	"kitabisa-test/entity"
 )
 
 // GetTeams returns list of soccer team
 func GetTeams(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	app := ctx.Value(entity.AppCtx)
+	fmt.Printf("%v", app)
+
 	response := &entity.GetTeamResponse{
 		Teams: []string{"test","test2"},
 	}

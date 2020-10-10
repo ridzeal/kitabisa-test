@@ -1,4 +1,4 @@
-package config
+package entity
 
 // Configuration for this application
 type Configuration struct {

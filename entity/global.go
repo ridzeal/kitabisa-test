@@ -1,10 +1,12 @@
 package entity
 
+type key string
+
 const (
 	// AppCtx global context
-	AppCtx string = "app"
+	AppCtx key = "app"
 	// ConfigCtx context name for config
-	ConfigCtx string = "config"
+	ConfigCtx key = "config"
 	// DBCtx context name for database adapter
-	DBCtx string = "db"
+	DBCtx key = "db"
 )
