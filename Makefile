@@ -13,3 +13,6 @@ run-dev:
 
 debug:
 	${GORUN} debug.go ${ARGS}
+
+migrate:
+	${GORUN} cmd/migrate.go ${ARGS}
