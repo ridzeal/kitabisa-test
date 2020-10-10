@@ -45,8 +45,11 @@ func GetTeamDetail(db *gorm.DB, teamID int) (team entity.TeamDetail, err error) 
 }
 
 // AddTeam to database
-func AddTeam(teamName string) (teamID int, err error) {
-	teamID = 1
+func AddTeam(db *gorm.DB, teamName string) (teamID int, err error) {
+	team := models.Team{Name: teamName}
+	result := db.Create(&team)
+	teamID = team.ID
+	err = result.Error
 	return teamID, err
 }
 

@@ -29,10 +29,15 @@ type GetTeamDetailResponse struct {
 	Team TeamDetail `json:"team"`
 }
 
+// AddTeamRequest format when call API add team
+type AddTeamRequest struct {
+	TeamName string `json:"team_name"`
+}
+
 // AddTeamResponse is response object after adding a team
 type AddTeamResponse struct {
-	TeamID string `json:"team_id"`
-	Status string `json:"status"`
+	TeamID int `json:"team_id"`
+	Status int `json:"status"`
 	Error string `json:"error"`
 }
 

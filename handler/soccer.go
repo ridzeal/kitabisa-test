@@ -61,9 +61,42 @@ func GetTeamDetail(w http.ResponseWriter, r *http.Request) {
 
 // AddTeam to database
 func AddTeam(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	app, ok := ctx.Value(entity.AppCtx).(*entity.Application)
+	if !ok {
+		status := http.StatusUnprocessableEntity
+    http.Error(w, http.StatusText(status), status)
+    return
+	}
+
+	var addTeamRequest *entity.AddTeamRequest
+
+	if err := parseBody(r.Body, r.Header, &addTeamRequest); err != nil {
+		respBody := &entity.AddTeamResponse{
+			TeamID: 0,
+			Status: http.StatusBadRequest,
+			Error: "Missing parameter",
+		}
+
+		renderResponse(w, r, http.StatusBadRequest, respBody)
+		return
+	}
+
+	teamID, err := controller.AddTeam(app.DB, addTeamRequest.TeamName)
+	if err != nil {
+		respBody := &entity.AddTeamResponse{
+			TeamID: 0,
+			Status: http.StatusInternalServerError,
+			Error: err.Error(),
+		}
+
+		renderResponse(w, r, http.StatusInternalServerError, respBody)
+		return
+	}
+
 	response := &entity.AddTeamResponse{
-		TeamID: "autogen",
-		Status: "200",
+		TeamID: teamID,
+		Status: http.StatusOK,
 		Error: "",
 	}
 	renderResponse(w, r, http.StatusOK, response)
