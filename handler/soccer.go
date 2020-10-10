@@ -2,6 +2,8 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
+	"github.com/go-chi/chi"
 	
 	"kitabisa-test/entity"
 	"kitabisa-test/controller"
@@ -32,8 +34,27 @@ func GetTeams(w http.ResponseWriter, r *http.Request) {
 
 // GetTeamDetail returns list of players in a team
 func GetTeamDetail(w http.ResponseWriter, r *http.Request) {
+	teamID := chi.URLParam(r, "teamID")
+	
+	ctx := r.Context()
+	app, ok := ctx.Value(entity.AppCtx).(*entity.Application)
+	if !ok {
+		status := http.StatusUnprocessableEntity
+    http.Error(w, http.StatusText(status), status)
+    return
+	}
+
+	idInt, err := strconv.Atoi(teamID)
+	if err != nil {
+		status := http.StatusBadRequest
+    http.Error(w, http.StatusText(status), status)
+    return
+	}
+
+	team, err := controller.GetTeamDetail(app.DB, idInt)
+	
 	response := &entity.GetTeamDetailResponse{
-		Players: []string{"test","test2"},
+		Team: team,
 	}
 	renderResponse(w, r, http.StatusOK, response)
 }
