@@ -54,6 +54,7 @@ func AddTeam(db *gorm.DB, teamName string) (teamID int, err error) {
 }
 
 // RemoveTeam from database
-func RemoveTeam(teamID int) (err error) {
+func RemoveTeam(db *gorm.DB, teamID int) (err error) {
+	db.Delete(&models.Team{}, teamID)
 	return err
 }
