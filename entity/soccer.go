@@ -62,6 +62,6 @@ type AddPlayerResponse struct {
 
 // RemovePlayerResponse is response object after removing a player from the team
 type RemovePlayerResponse struct {
-	Status string `json:"status"`
+	Status int `json:"status"`
 	Error string `json:"error"`
 }

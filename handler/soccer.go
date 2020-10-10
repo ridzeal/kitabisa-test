@@ -192,8 +192,27 @@ func AddPlayer(w http.ResponseWriter, r *http.Request) {
 
 // RemovePlayer from a team
 func RemovePlayer(w http.ResponseWriter, r *http.Request) {
+	playerID := chi.URLParam(r, "playerID")
+	
+	ctx := r.Context()
+	app, ok := ctx.Value(entity.AppCtx).(*entity.Application)
+	if !ok {
+		status := http.StatusUnprocessableEntity
+    http.Error(w, http.StatusText(status), status)
+    return
+	}
+
+	idInt, err := strconv.Atoi(playerID)
+	if err != nil {
+		status := http.StatusBadRequest
+    http.Error(w, http.StatusText(status), status)
+    return
+	}
+
+	controller.RemovePlayer(app.DB, idInt)
+	
 	response := &entity.RemovePlayerResponse{
-		Status: "200",
+		Status: http.StatusOK,
 		Error: "",
 	}
 	renderResponse(w, r, http.StatusOK, response)

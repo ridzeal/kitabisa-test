@@ -68,3 +68,9 @@ func AddPlayer(db *gorm.DB, playerName string, teamID int) (playerID int, err er
 	err = result.Error
 	return playerID, err
 }
+
+// RemovePlayer from database
+func RemovePlayer(db *gorm.DB, playerID int) (err error) {
+	db.Delete(&models.Player{}, playerID)
+	return err
+}
