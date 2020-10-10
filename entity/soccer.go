@@ -47,10 +47,16 @@ type RemoveTeamResponse struct {
 	Error string `json:"error"`
 }
 
+// AddPlayerRequest format when call API add player
+type AddPlayerRequest struct {
+	PlayerName string `json:"player_name"`
+	TeamID int `json:"team_id"`
+}
+
 // AddPlayerResponse is response object after adding a player into the team
 type AddPlayerResponse struct {
-	PlayerID string `json:"player_id"`
-	Status string `json:"status"`
+	PlayerID int `json:"player_id"`
+	Status int `json:"status"`
 	Error string `json:"error"`
 }
 

@@ -132,9 +132,59 @@ func RemoveTeam(w http.ResponseWriter, r *http.Request) {
 
 // AddPlayer to a team
 func AddPlayer(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	app, ok := ctx.Value(entity.AppCtx).(*entity.Application)
+	if !ok {
+		status := http.StatusUnprocessableEntity
+    http.Error(w, http.StatusText(status), status)
+    return
+	}
+
+	var addPlayerRequest *entity.AddPlayerRequest
+
+	if err := parseBody(r.Body, r.Header, &addPlayerRequest); err != nil {
+		respBody := &entity.AddPlayerResponse{
+			PlayerID: 0,
+			Status: http.StatusBadRequest,
+			Error: "Missing parameter",
+		}
+
+		renderResponse(w, r, http.StatusBadRequest, respBody)
+		return
+	}
+
+	// Check if Team is exist
+	_, err := controller.GetTeamDetail(app.DB, addPlayerRequest.TeamID)
+	if err != nil {
+		respBody := &entity.AddPlayerResponse{
+			PlayerID: 0,
+			Status: http.StatusNotFound,
+			Error: err.Error(),
+		}
+
+		renderResponse(w, r, http.StatusNotFound, respBody)
+		return
+	}
+
+	playerID, err := controller.AddPlayer(
+		app.DB,
+		addPlayerRequest.PlayerName,
+		addPlayerRequest.TeamID,
+	)
+	if err != nil {
+		respBody := &entity.AddPlayerResponse{
+			PlayerID: 0,
+			Status: http.StatusInternalServerError,
+			Error: err.Error(),
+		}
+
+		renderResponse(w, r, http.StatusInternalServerError, respBody)
+		return
+	}
+
 	response := &entity.AddPlayerResponse{
-		PlayerID: "autogen",
-		Status: "200",
+		PlayerID: playerID,
+		Status: 200,
 		Error: "",
 	}
 	renderResponse(w, r, http.StatusOK, response)

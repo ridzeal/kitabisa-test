@@ -25,7 +25,8 @@ func GetTeamDetail(db *gorm.DB, teamID int) (team entity.TeamDetail, err error) 
 	var teamResult models.Team
 	var playerList []models.Player
 
-	db.First(&teamResult, teamID)
+	result := db.First(&teamResult, teamID)
+	err = result.Error
 	db.Where("team = ?", teamID).Find(&playerList)
 
 	team = entity.TeamDetail{
@@ -57,4 +58,13 @@ func AddTeam(db *gorm.DB, teamName string) (teamID int, err error) {
 func RemoveTeam(db *gorm.DB, teamID int) (err error) {
 	db.Delete(&models.Team{}, teamID)
 	return err
+}
+
+// AddPlayer to database
+func AddPlayer(db *gorm.DB, playerName string, teamID int) (playerID int, err error) {
+	player := models.Player{Name: playerName, Team: teamID}
+	result := db.Create(&player)
+	playerID = player.ID
+	err = result.Error
+	return playerID, err
 }
